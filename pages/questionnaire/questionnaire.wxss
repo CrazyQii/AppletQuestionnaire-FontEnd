@@ -1,0 +1,7 @@
+/* pages/components/questionnaire/questionnaire.wxss */
+.normal {
+  color: black;
+}
+.error { 
+  color: red;
+}

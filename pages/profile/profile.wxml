@@ -1,0 +1,19 @@
+<!--pages/components/profile/profile.wxml-->
+<view>
+  <view class="avatar">
+    <van-image
+    round
+    width="5rem"
+    height="5rem"
+    src="{{ userInfo.avatar }}"
+  />
+  </view>
+  <van-cell-group>
+    <van-cell title="昵称" value="{{ userInfo.nickname }}" />
+    <van-cell title="注册时间" value="{{ userInfo.regist_time }}"/>
+    <van-cell wx:if="{{ !userInfo.finish_time }}" title="完成答题时间" value="未完成" />
+    <van-cell wx:else title="完成答题时间" value="{{ userInfo.finish_time }}" is-link url="../advise/advise" />
+  </van-cell-group>
+</view>
+
+<van-toast id="van-toast" />

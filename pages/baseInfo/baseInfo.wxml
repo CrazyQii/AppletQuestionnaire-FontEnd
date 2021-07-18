@@ -1,0 +1,105 @@
+<!--pages/baseInfo/baseInfo.wxml-->
+<view class="container" style="padding: 10rpx; font-weight: 700;">
+  基础信息登记
+</view>
+
+<van-cell-group>
+  <van-field
+    value="{{ name }}"
+    label="姓名"
+    placeholder="请输入姓名"
+    border="false"
+    bind:change="onChangeName"
+  />
+  <van-cell is-link title="出生年月" value="{{ currentDate }}" bind:click="onDisplayDate" />
+  <van-cell is-link title="您的文化程度" value="{{ currentCulture }}" bind:click="onDisplayCulture" />
+  <van-cell is-link title="您的耳鸣发生在" value="{{ currentErming }}" bind:click="onDisplayErming" />
+  <van-field
+    value="{{ currentDuring }}"
+    label="您耳鸣几天/年了"
+    bind:change="onChangeDuring"
+  />
+  <van-cell is-link title="耳鸣一次会响多久" value="{{ currentKeeping }}" bind:click="onDisplayKeeping" />
+  <van-cell is-link title="您在什么环境下能感知到耳鸣" value="{{ currentEnv }}" bind:click="onDisplayEnv" />
+  <van-cell is-link title="您耳鸣声的音调" value="{{ currentVoice }}" bind:click="onDisplayVoice" />
+  <van-cell is-link title="您耳鸣的响度有多大（自我感觉）" value="{{ currentFeel }}" bind:click="onDisplayFeel" />
+</van-cell-group>
+
+<view style="margin-top: 40rpx;">
+  <van-button type="primary" size="large" bind:click="submit" >提交信息</van-button>
+</view>
+
+<!-- 日期展示层 -->
+<van-popup show="{{ showDate }}" position="bottom">
+  <van-datetime-picker
+      type="year-month"
+      value="{{ currentDate }}"
+      min-date="{{ minDate }}"
+      max-date="{{ maxDate }}"
+      bind:confirm="confirmDate"
+      bind:cancel="cancelDate"
+    />
+</van-popup>
+
+<van-popup show="{{ showCulture }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="文化程度"
+    columns="{{ culture }}"
+    bind:cancel="cancelCulture"
+    bind:confirm="confirmCulture"
+  />
+</van-popup>
+
+<van-popup show="{{ showErming }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="发生时间"
+    columns="{{ Erming }}"
+    bind:cancel="cancelErming"
+    bind:confirm="confirmErming"
+  />
+</van-popup>
+
+<van-popup show="{{ showKeeping }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="持续时间"
+    columns="{{ Keeping }}"
+    bind:cancel="cancelKeeping"
+    bind:confirm="confirmKeeping"
+  />
+</van-popup>
+
+<van-popup show="{{ showEnv }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="持续时间"
+    columns="{{ Env }}"
+    bind:cancel="cancelEnv"
+    bind:confirm="confirmEnv"
+  />
+</van-popup>
+
+<van-popup show="{{ showVoice }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="音调"
+    columns="{{ Voice }}"
+    bind:cancel="cancelVoice"
+    bind:confirm="confirmVoice"
+  />
+</van-popup>
+
+<van-popup show="{{ showFeel }}" position="bottom">
+  <van-picker
+    show-toolbar
+    title="音调"
+    columns="{{ Feel }}"
+    bind:cancel="cancelFeel"
+    bind:confirm="confirmFeel"
+  />
+</van-popup>
+
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

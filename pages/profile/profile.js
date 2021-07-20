@@ -5,7 +5,14 @@ Page({
   data: {
     userInfo: ''
   },
-
+  onShow() {
+    wx.getStorage({ // 获取已经登录过的用户信息缓存
+      key: 'userInfo',
+      success: (res) => {
+        this.setData({ userInfo: res.data })
+      }
+    })
+  },
   onLoad() {
     wx.getStorage({ // 获取已经登录过的用户信息缓存
       key: 'userInfo',

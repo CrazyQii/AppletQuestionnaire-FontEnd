@@ -82,25 +82,27 @@ Page({
             Toast.success({
               message: '用户登录成功',
               forbidClick: true,
-            });
-            res.data.regist_time = formatTime(res.data.regist_time)
-            if (res.data.finish_time != null) {
-              res.data.finish_time = formatTime(res.data.finish_time)
-              wx.setStorageSync('userInfo', res.data)
-              wx.switchTab({
-                url: '../profile/profile'
-              })
-              return
-            }
-            this.setData({
-              userInfo: res.data
-            })
-            wx.navigateTo({
-              url: '../baseInfo/baseInfo',
-              success: () => {
-                wx.setStorageSync('userInfo', this.data.userInfo)
+              onClose: () => {
+                res.data.regist_time = formatTime(res.data.regist_time)
+                if (res.data.finish_time != null) {
+                  res.data.finish_time = formatTime(res.data.finish_time)
+                  wx.setStorageSync('userInfo', res.data)
+                  wx.switchTab({
+                    url: '../profile/profile'
+                  })
+                  return
+                }
+                this.setData({
+                  userInfo: res.data
+                })
+                wx.navigateTo({
+                  url: '../baseInfo/baseInfo',
+                  success: () => {
+                    wx.setStorageSync('userInfo', this.data.userInfo)
+                  }
+                })
               }
-            })
+            });
           } else {
             Toast.fail({
               message: '用户登录失败',

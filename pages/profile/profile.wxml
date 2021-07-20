@@ -12,7 +12,7 @@
     <van-cell title="昵称" value="{{ userInfo.nickname }}" />
     <van-cell title="注册时间" value="{{ userInfo.regist_time }}"/>
     <van-cell wx:if="{{ !userInfo.finish_time }}" title="完成答题时间" value="未完成" />
-    <van-cell wx:else title="完成答题时间" value="{{ userInfo.finish_time }}" is-link url="../advise/advise" />
+    <van-cell wx:else title="查看建议" value="{{ userInfo.finish_time }}" is-link url="../advise/advise" />
   </van-cell-group>
 </view>
 

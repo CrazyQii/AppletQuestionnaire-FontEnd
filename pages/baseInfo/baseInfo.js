@@ -106,7 +106,7 @@ Page({
     }
     Dialog.confirm({
       title: '准备答题',
-      message: '开始答题后，只有一次机会，中间不能间断！预计完成时间 12 分钟',
+      message: '开始答题后，有四个模块问卷，只有一次机会，中间不能间断！预计完成时间 12 分钟',
     }).then(() => {
         this.post_data()
     }).catch(() => {
@@ -129,12 +129,12 @@ Page({
     }
     post(baseInfoApi, data).then((res) => {
       if (res.code == 200) {
-        wx.navigateTo({
+        wx.reLaunch({
           url: '../questionnaire/questionnaire',
         })
       } else {
         Toast.fail({
-          message: '生成问卷失败！',
+          message: '生成问卷失败！' + res.msg,
           forbidClick: true
         })
       }

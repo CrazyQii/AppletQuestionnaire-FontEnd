@@ -118,24 +118,24 @@ Page({
         answer4: this.data.answer4
       }
       this.upload(data)
-      Toast.success({
-        message: '已经完成全部试题!',
-        forbidClick: true,
-        onClose: () => {
-          let userInfo = wx.getStorageSync('userInfo')
-          userInfo['finish_time'] = this.data.finish_time
-          wx.setStorageSync('userInfo', userInfo)
-          wx.switchTab({
-            url: '../profile/profile',
-          })
-        }
-      });
     }
   },
   upload(data) { // 上传数据
     return post(recordApi, data).then((res) => {
       if (res.code == 200) {
         this.data.finish_time = formatTime(res.data.finish_time)
+        Toast.success({
+          message: '已经完成全部试题!',
+          forbidClick: true,
+          onClose: () => {
+            let userInfo = wx.getStorageSync('userInfo')
+            userInfo['finish_time'] = this.data.finish_time
+            wx.setStorageSync('userInfo', userInfo)
+            wx.switchTab({
+              url: '../profile/profile',
+            })
+          }
+        });
       } else {
         Toast.fail({
           message: '上传数据失败！',

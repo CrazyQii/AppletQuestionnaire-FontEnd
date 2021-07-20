@@ -15,7 +15,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    // host: "https://www.crazyqiqi.top:4443"
-    host: "http://127.0.0.1:5000"
+    host: "https://www.crazyqiqi.top:4443"
+    // host: "http://127.0.0.1:5000"
   }
 })

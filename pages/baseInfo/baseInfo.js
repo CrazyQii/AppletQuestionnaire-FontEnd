@@ -1,8 +1,6 @@
 // pages/baseInfo/baseInfo.js
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
-import { post } from '../../utils/request'
-import { baseInfoApi } from '../../utils/api'
 import { formatMonth } from '../../utils/util'
 
 Page({
@@ -31,6 +29,23 @@ Page({
     showVoice: false,
     showFeel: false,
 
+  },
+  onShow() {
+    const baseInfo = wx.getStorageSync('baseInfo') || null
+    if (baseInfo != null) {
+      this.setData({
+        name: baseInfo['name'],
+        currentDate: baseInfo['date'],
+        currentCulture: baseInfo['culture'],
+        currentErming: baseInfo['erMing'],
+        currentDuring: baseInfo['during'],
+        currentKeeping: baseInfo['keeping'],
+        currentEnv: baseInfo['env'],
+        currentVoice: baseInfo['voice'],
+        currentFeel: baseInfo['feel'],
+      })
+    }
+    return
   },
   onChangeName(event) {
     this.setData({ name: event.detail })
@@ -99,14 +114,14 @@ Page({
   submit() {
     if (this.data.name == '' || this.data.currentDate == '' || this.data.currentCulture == '' || this.data.currentErming == '' || this.data.currentKeeping == '' || this.data.currentDuring == '' || this.data.currentEnv =='' || this.data.currentVoice == '' || this.data.currentFeel == '' ) {
       Toast.fail({
-        message: '信息填写不完整',
+        message: '信息不完整',
         forbidClick: true
       });
       return
     }
     Dialog.confirm({
       title: '准备答题',
-      message: '开始答题后，有四个模块问卷，只有一次机会，中间不能间断！预计完成时间 12 分钟',
+      message: '开始答题后，有四个模块问卷，预计完成时间 12 分钟，可从中断处重新作答',
     }).then(() => {
         this.post_data()
     }).catch(() => {
@@ -127,27 +142,16 @@ Page({
       'voice': this.data.currentVoice,
       'feel': this.data.currentFeel
     }
-    post(baseInfoApi, data).then((res) => {
-      if (res.code == 200) {
+    // 将数据进行缓存
+    wx.setStorageSync('baseInfo', data)
+    wx.setStorage({
+      data: data,
+      key: 'baseInfo',
+      success: function() {
         wx.reLaunch({
           url: '../questionnaire/questionnaire',
         })
-      } else {
-        Toast.fail({
-          message: '生成问卷失败！' + res.msg,
-          forbidClick: true
-        })
       }
-    }).catch((err) => {
-      Toast.fail({
-        message: '已经生成过记录',
-        forbidClick: true,
-        onClose: () => {
-          wx.switchTab({
-            url: '../profile/profile',
-          })
-        }
-      })
     })
   }
 })

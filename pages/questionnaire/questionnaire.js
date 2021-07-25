@@ -1,7 +1,8 @@
 // pages/components/questionnaire/questionnaire.js
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import { get, post } from '../../utils/request'
-import { questionnaireApi, recordApi } from '../../utils/api'
+import { questionnaireApi, recordApi, baseInfoApi } from '../../utils/api'
 import { formatDate, formatTime } from '../../utils/util'
 
 
@@ -19,7 +20,26 @@ Page({
   },
 
   onLoad: function () {
-    this.initList(this.data.questionnaire_id)
+    const end_id = Number(wx.getStorageSync('end_id')) + 1 || this.data.questionnaire_id
+    if (end_id > 4) {
+      this.postInfo()
+      Toast.fail({
+        message: '已经完成该问卷!',
+        forbidClick: true,
+        onClose: function() {
+          wx.switchTab({
+            url: '../profile/profile',
+          })
+        }
+      });
+      return 
+    } else {
+      this.initList(end_id)
+      this.setData({ 
+        questionnaire_id: end_id
+      })
+      
+    }
   },
   initList(id) {  // 获取问题列表
     let data = {'id': id}
@@ -86,42 +106,72 @@ Page({
       return
     } 
     if (this.data.questionnaire_id == 1) {
-      let questionnaire_id = this.data.questionnaire_id + 1
-      this.setData({
-        questionnaire_id: questionnaire_id,
-        answer1: this.data.answer
-      })
-      this.initList(this.data.questionnaire_id)
+      Dialog.confirm({
+        title: '保存答案',
+        message: '保存后不可更改',
+      }).then(() => {
+        let questionnaire_id = this.data.questionnaire_id + 1
+        this.setData({
+          questionnaire_id: questionnaire_id,
+          answer1: this.data.answer
+        })
+        wx.setStorageSync('answer1', this.data.answer1)  // 保存用户已完成的问卷答案
+        wx.setStorageSync('end_id', 1)  // 保存用户已完成的问卷id
+        this.initList(this.data.questionnaire_id)
+      }).catch(() => {
+        console.log('用户取消！')
+      });
     } else if (this.data.questionnaire_id == 2) {
-      let questionnaire_id = this.data.questionnaire_id + 1
-      this.setData({
-        questionnaire_id: questionnaire_id,
-        answer2: this.data.answer
+      Dialog.confirm({
+        title: '保存答案',
+        message: '保存后不可更改',
+      }).then(() => {
+        let questionnaire_id = this.data.questionnaire_id + 1
+        this.setData({
+          questionnaire_id: questionnaire_id,
+          answer2: this.data.answer
+        })
+        wx.setStorageSync('answer2', this.data.answer2)
+        wx.setStorageSync('end_id', 2)
+        this.initList(this.data.questionnaire_id)
+      }).catch(() => {
+        console.log('用户取消！')
       })
-      this.initList(this.data.questionnaire_id)
     } else if (this.data.questionnaire_id == 3) {
-      let questionnaire_id = this.data.questionnaire_id + 1
-      this.setData({
-        questionnaire_id: questionnaire_id,
-        answer3: this.data.answer
+      Dialog.confirm({
+        title: '保存答案',
+        message: '保存后不可更改',
+      }).then(() => {
+        let questionnaire_id = this.data.questionnaire_id + 1
+        this.setData({
+          questionnaire_id: questionnaire_id,
+          answer3: this.data.answer
+        })
+        wx.setStorageSync('answer3', this.data.answer3)
+        wx.setStorageSync('end_id', 3)
+        this.initList(this.data.questionnaire_id)
+      }).catch(() => {
+        console.log('用户取消！')
       })
-      this.initList(this.data.questionnaire_id)
     } else {
-      this.setData({
-        answer4: this.data.answer
-      })
-      let data = {
-        openid: wx.getStorageSync('userInfo')['openid'],
-        answer1: this.data.answer1,
-        answer2: this.data.answer2,
-        answer3: this.data.answer3,
-        answer4: this.data.answer4
-      }
-      this.upload(data)
+      Dialog.confirm({
+        title: '提交答案',
+        message: '提交后不可更改',
+      }).then(() => {
+        this.setData({
+          answer4: this.data.answer
+        })
+        wx.setStorageSync('answer4', this.data.answer4)
+        wx.setStorageSync('end_id', 4)
+        this.postInfo()
+      }).catch((e) => {
+        console.log(e)
+        console.log('用户取消！')
+      });
     }
   },
-  upload(data) { // 上传数据
-    return post(recordApi, data).then((res) => {
+  upload(data) { // 上传答题数据
+    post(recordApi, data).then((res) => {
       if (res.code == 200) {
         this.data.finish_time = formatTime(res.data.finish_time)
         Toast.success({
@@ -142,6 +192,38 @@ Page({
           forbidClick: true,
         });
         console.log(res)
+      }
+    })
+  },
+  postInfo() {  // 上传基本信息数据
+    let baseInfo = wx.getStorageSync('baseInfo')
+    let data = {
+      'openid': baseInfo['openid'],
+      'name': baseInfo['name'],
+      'date': baseInfo['date'],
+      'culture': baseInfo['culture'],
+      'erMing': baseInfo['erMing'],
+      'during': baseInfo['during'],
+      'keeping': baseInfo['keeping'],
+      'env': baseInfo['env'],
+      'voice': baseInfo['voice'],
+      'feel': baseInfo['feel']
+    }
+    post(baseInfoApi, data).then((res) => {
+      if (res.code == 200) {
+        let data = {
+          openid: baseInfo['openid'],
+          answer1: wx.getStorageSync('answer1'),
+          answer2: wx.getStorageSync('answer2'),
+          answer3: wx.getStorageSync('answer3'),
+          answer4: wx.getStorageSync('answer4')
+        }
+        this.upload(data)
+      } else {
+        Toast.fail({
+          message: '上传基础信息失败！' + res.msg,
+          forbidClick: true
+        })
       }
     })
   }

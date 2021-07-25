@@ -4,11 +4,9 @@ import { formatTime } from '../../utils/util'
 import { post } from '../../utils/request'
 import { login, userInfoApi } from '../../utils/api'
 
-const app = getApp()
-
 Page({
   data: {
-    title: '调查问卷',
+    title: '耳鸣病史调查',
     userInfo: {},
     session_key: '',
     openid: '',
@@ -24,6 +22,8 @@ Page({
     if (userInfo && userInfo['finish_time']) {
       this.setData({ hasUserInfo: true })
       return
+    } else {
+      this.setData({ hasUserInfo: false })
     }
   },
   // 页面加载函数
@@ -33,6 +33,8 @@ Page({
     if (userInfo && userInfo['finish_time']) {
       this.setData({ hasUserInfo: true })
       return
+    } else {
+      this.setData({ hasUserInfo: false })
     }
     // 登录，获取用户code
     wx.login({
@@ -65,7 +67,7 @@ Page({
     }
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: '展示个人信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
         this.setData({
           userInfo: res.userInfo,
@@ -80,7 +82,7 @@ Page({
           if (res.code == 200) {
             console.log(res.data)
             Toast.success({
-              message: '用户登录成功',
+              message: '登录成功',
               forbidClick: true,
               onClose: () => {
                 res.data.regist_time = formatTime(res.data.regist_time)
@@ -105,7 +107,7 @@ Page({
             });
           } else {
             Toast.fail({
-              message: '用户登录失败',
+              message: '登录失败',
               forbidClick: true,
             });
             console.log(res)

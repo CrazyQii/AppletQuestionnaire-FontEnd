@@ -2,13 +2,15 @@
 <view class="container"> 
   <block wx:if="{{!hasUserInfo}}">
     <view>
-      <text>{{title}}</text>
+      <text style="font-weight: 700; font-size: 40rpx">{{title}}</text>
     </view>
-    <van-button type="info" bind:click="startReply" custom-class="btn">开始答题</van-button>
   </block>
-  <block wx:else>
-    已经完成答题，请查看建议
+  <block  wx:else>
+    <text style="font-weight: 700; font-size: 32rpx; margin-top: 40%;">已经完成答题，请在我的界面查看建议</text>
   </block>
+</view>
+<view wx:if="{{!hasUserInfo}}" style="padding: 0 20rpx;">
+  <van-button round size="large" type="info" bind:click="startReply" custom-class="btn">开始答题</van-button>
 </view>
 
 <van-toast id="van-toast" />

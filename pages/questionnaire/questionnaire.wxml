@@ -1,5 +1,5 @@
 <!--pages/components/questionnaire/questionnaire.wxml-->
-<view class="container" style="padding: 10rpx; font-weight: 700;">
+<view class="container" style="padding: 10rpx; font-weight: 700; font-size:32rpx;">
   {{ questions.title }}
   <view style="margin-top: 10rpx;">预计题量{{ questions.score }}道，预计完成时间{{ (questions.score * 5) / 60 + 1 | Int }}分钟</view>
 </view>
@@ -8,7 +8,7 @@
 <view wx:for="{{ questions.option }}" wx:key="index">
   <!-- <van-divider contentPosition="left"> 问题{{ index + 1 }} </van-divider> -->
   <view class="{{ item.class }}">
-    <text style="display:block; margin: 20rpx; font-size: 24rpx; font-weight: 700;">{{ item.content }}</text>
+    <text style="display:block; margin: 20rpx; font-size: 30rpx; font-weight: 700;">{{ item.content }}</text>
   </view>
   
   <van-radio-group value="{{ answer[index] }}">
@@ -23,7 +23,8 @@
 </view>
 
 <view style="margin-top: 40rpx;">
-  <van-button type="primary" size="large" bind:click="submit" >提交本章问卷</van-button>
+  <van-button type="primary" size="large" bind:click="submit" >保存本章问卷答案</van-button>
 </view>
 
 <van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

@@ -17,7 +17,7 @@
   <van-field
     value="{{ currentDuring }}"
     label="您耳鸣几天了"
-    placeholder="请输入天数"
+    placeholder="请输入天数（纯数字）"
     bind:change="onChangeDuring"
   />
   <van-cell is-link title="耳鸣一次会响多久" value="{{ currentKeeping }}" bind:click="onDisplayKeeping" />

@@ -1,1 +1,8 @@
 /* pages/advise/advise.wxss */
+.col {
+  font-weight: 700;
+}
+
+.van-cell__title {
+  font-size: 32rpx;
+}

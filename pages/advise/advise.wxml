@@ -1,8 +1,8 @@
 <!--pages/advise/advise.wxml-->
-<van-collapse value="{{ activeCollapse }}" bind:change="onChangeCollapse">
+<van-collapse value="{{ activeCollapse }}" bind:change="onChangeCollapse" custom-class="col">
   <block wx:for="{{ adviseData }}" wx:key="index">
     <van-collapse-item title="{{ item.title }}" name="{{ index + 1 }}">
-      <view wx:for="{{ item.content }}" wx:key="index">
+      <view wx:for="{{ item.content }}" wx:key="index" style="font-size: 32rpx;">
         {{ item }}
       </view>
     </van-collapse-item>

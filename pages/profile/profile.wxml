@@ -16,4 +16,7 @@
   </van-cell-group>
 </view>
 
+<van-button plain type="danger" size="large" bind:click="logout" custom-class="btn">登出</van-button>
+
 <van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

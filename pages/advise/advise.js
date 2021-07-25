@@ -26,19 +26,19 @@ Page({
         this.setData({
           adviseData: [
             {
-              'title': '问卷1',
+              'title': '结果1',
               'content': this.splitString(res.data['ad1'])
             },
             {
-              'title': '问卷2',
+              'title': '结果2',
               'content': this.splitString(res.data['ad2'])
             },
             {
-              'title': '问卷3',
+              'title': '结果3',
               'content': this.splitString(res.data['ad3'])
             },
             {
-              'title': '问卷4',
+              'title': '结果4',
               'content': this.splitString(res.data['ad4'])
             }
           ]

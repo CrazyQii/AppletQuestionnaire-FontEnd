@@ -6,7 +6,7 @@
     </view>
   </block>
   <block  wx:else>
-    <text style="font-weight: 700; font-size: 32rpx; margin-top: 40%;">已经完成答题，请在我的界面查看建议</text>
+    <text style="font-weight: 700; font-size: 34rpx; margin-top: 40%;">已经完成答题，请在我的界面查看建议</text>
   </block>
 </view>
 <view wx:if="{{!hasUserInfo}}" style="padding: 0 20rpx;">

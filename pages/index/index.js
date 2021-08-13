@@ -37,32 +37,16 @@ Page({
       this.setData({ hasUserInfo: false })
     }
     // 登录，获取用户code
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        let data = { code: res.code }
-        // 上传code到后端获取session_key和openid
-        post(login, data).then((res) => {
-          if (res.code == 200) {
-            this.setData({
-              session_key: res.data.session_key,
-              openid: res.data.openid
-            })
-          } else {
-            console.log('code登录错误!')
-          }
-        })
-      }
-    })
+    this.login()
   },
   // 方法函数
   getUserProfile(e) {
     // 如果本地有存储过数据，后续不再获取用户信息
     const userInfo = wx.getStorageSync('userInfo') || null
-    if (userInfo) {
+    if (userInfo && (userInfo.openid != null || userInfo.session_key != null)) {
       wx.navigateTo({
         url: '../baseInfo/baseInfo'
-      })
+      })  
       return
     }
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
@@ -116,6 +100,26 @@ Page({
       }, 
       fail: (res) => {
         console.log(res)
+      }
+    })
+  },
+  login() {
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        let data = { code: res.code }
+        // 上传code到后端获取session_key和openid
+        post(login, data).then((res) => {
+          if (res.code == 200) {
+            console.log(res)
+            this.setData({
+              session_key: res.data.session_key,
+              openid: res.data.openid
+            })
+          } else {
+            console.log('code登录错误!')
+          }
+        })
       }
     })
   }

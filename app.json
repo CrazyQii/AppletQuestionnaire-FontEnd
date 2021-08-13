@@ -1,10 +1,13 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/questionnaire/questionnaire",
+    "pages/profile/profile",
+    "pages/info/info",
+    "pages/histDisease/histDisease",
     "pages/baseInfo/baseInfo",
+    "pages/quesSleep/quesSleep",
+    "pages/index/index",
     "pages/advise/advise",
-    "pages/profile/profile"
+    "pages/questionnaire/questionnaire"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -49,6 +52,8 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-datetime-picker": "@vant/weapp/datetime-picker/index",
     "van-picker": "@vant/weapp/picker/index",
-    "van-dialog": "@vant/weapp/dialog/index"
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-checkbox": "@vant/weapp/checkbox/index",
+    "van-checkbox-group": "@vant/weapp/checkbox-group/index"
   }
 }

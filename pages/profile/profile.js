@@ -1,16 +1,18 @@
 // pages/components/profile/profile.js
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
+import { getHistDisease } from '../../utils/api'
+import { get } from '../../utils/request'
 
 Page({
   data: {
-    userInfo: ''
+    userInfo: '',
+    histDisease: ''
   },
   onShow() {
     wx.getStorage({ // 获取已经登录过的用户信息缓存
       key: 'userInfo',
       success: (res) => {
-        console.log(res)
         this.setData({ userInfo: res.data })
       }, fail: (res) => {
         Toast({
@@ -22,6 +24,19 @@ Page({
             })
           }
         });
+      }
+    })
+    get(getHistDisease, {'openid': wx.getStorageSync('userInfo')['openid'] }).then((res) => {
+      console.log(res)
+      if (res.code == 200) {
+        this.setData({ 
+          histDisease: true
+        })
+        wx.setStorageSync('info', res.data)
+      } else {
+        this.setData({
+          histDisease: false
+        })
       }
     })
   },
@@ -42,6 +57,18 @@ Page({
         });
       }
     })
+    get(getHistDisease, {'openid': wx.getStorageSync('userInfo')['openid'] }).then((res) => {
+      if (res.code == 200) {
+        this.setData({ 
+          histDisease: true
+        })
+        wx.setStorageSync('info', res.data)
+      } else {
+        this.setData({
+          histDisease: false
+        })
+      }
+    })
   },
   logout() {
     let that = this
@@ -59,7 +86,6 @@ Page({
               wx.switchTab({
                 url: '../index/index',
               })
-              
             },
           })
         }

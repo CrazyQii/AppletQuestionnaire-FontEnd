@@ -1,0 +1,16 @@
+<van-collapse value="{{ activeName }}" bind:change="onChange">
+  <van-collapse-item title="个人基本信息" name="1">
+    <van-cell title="文化程度" value="{{ baseInfo.culture }}" />
+    <van-cell title="耳鸣发生在" value="{{ baseInfo.erMing }}" />
+    <van-cell title="耳鸣几天" value="{{ baseInfo.during }}" />
+    <van-cell title="耳鸣一次响多久" value="{{ baseInfo.keeping }}" />
+    <van-cell title="在什么环境下感知耳鸣" value="{{ baseInfo.env }}" />
+    <van-cell title="耳鸣音调" value="{{ baseInfo.voice }}" />
+    <van-cell title="耳鸣响度" value="{{ baseInfo.feel }}" />
+  </van-collapse-item>  
+  <van-collapse-item title="病史信息" name="2">
+    <van-cell title="家里人症状" value="{{ histDisease.symptom }}" />
+    <van-cell title="导致耳鸣的原因" value="{{ histDisease.reason }}" />
+    <van-cell title="自身是否患有慢性疾病" value="{{ histDisease.self_disease }}" />
+  </van-collapse-item>
+</van-collapse>

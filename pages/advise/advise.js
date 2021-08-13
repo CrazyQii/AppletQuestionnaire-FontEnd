@@ -40,11 +40,13 @@ Page({
             {
               'title': '结果4',
               'content': this.splitString(res.data['ad4'])
+            },
+            {
+              'title': '结果5',
+              'content': this.splitString(res.data['ad5'])
             }
           ]
         })
-        console.log(res)
-
       } else {
         console.log(res)
       }

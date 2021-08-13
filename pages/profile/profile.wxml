@@ -13,10 +13,12 @@
     <van-cell title="注册时间" value="{{ userInfo.regist_time }}"/>
     <van-cell wx:if="{{ !userInfo.finish_time }}" title="完成答题时间" value="未完成" />
     <van-cell wx:else title="查看建议" value="{{ userInfo.finish_time }}" is-link url="../advise/advise" />
+    <van-cell wx:if="{{ !histDisease }}" is-link title="病史调查（请先完成首页答题，否则答题无效）" value="未完成" link-type="navigateTo" url="../histDisease/histDisease" />
+    <van-cell wx:else is-link title="病史调查" value="已完成" link-type="navigateTo" url="../info/info" />
   </van-cell-group>
 </view>
 
-<van-button plain type="danger" size="large" bind:click="logout" custom-class="btn">登出</van-button>
+<van-button type="danger" size="large" bind:click="logout" custom-class="btn">登出</van-button>
 
 <van-toast id="van-toast" />
 <van-dialog id="van-dialog" />

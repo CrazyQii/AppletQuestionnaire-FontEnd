@@ -1,0 +1,13 @@
+/* pages/quesSleep/quesSleep.wxss */
+.normal {
+  color: black;
+}
+.error { 
+  color: red;
+}
+.title {
+  display: block; 
+  margin: 20rpx; 
+  font-size: 30rpx; 
+  font-weight: 700;
+}

@@ -1,8 +1,18 @@
 /* pages/advise/advise.wxss */
-.col {
+.title {
   font-weight: 700;
+  font-size: 32rpx;
+  margin-bottom: 1rem;
 }
 
-.van-cell__title {
-  font-size: 32rpx;
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  margin: 1.5rem 1rem;
+  box-sizing: border-box;
+  background-color: rgba(250, 235, 215, 0.473);
+  box-shadow: 10rpx 5rpx 5rpx rgba(250, 235, 215, 0.473);
 }

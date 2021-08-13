@@ -1,10 +1,11 @@
 <!--pages/advise/advise.wxml-->
-<van-collapse value="{{ activeCollapse }}" bind:change="onChangeCollapse" custom-class="col">
+<van-collapse value="{{ activeCollapse }}" bind:change="onChangeCollapse">
   <block wx:for="{{ adviseData }}" wx:key="index">
-    <van-collapse-item title="{{ item.title }}" name="{{ index + 1 }}">
-      <view wx:for="{{ item.content }}" wx:key="index" style="font-size: 32rpx;">
-        {{ item }}
+    <view class="card">
+      <view class="title">{{item.title}}</view>
+      <view wx:for="{{ item.content }}" wx:key="index">
+        <text>{{ item }}</text>
       </view>
-    </van-collapse-item>
+    </view>
   </block>
 </van-collapse>

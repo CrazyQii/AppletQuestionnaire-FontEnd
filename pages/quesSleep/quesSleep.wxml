@@ -1,0 +1,89 @@
+<view class="container" style="padding: 10rpx; font-weight: 700; font-size:32rpx;">
+  {{ questions.title }}
+  <view style="margin-top: 10rpx;">预计题量{{ questions.score }}道，预计完成时间{{ (questions.score * 5) / 60 + 1 | Int }}分钟</view>
+</view>
+
+<view wx:for="{{ questions.option }}" wx:key="index">
+  <text class="title" wx:if="{{ index == 4}}">5.在最近一个月中，总的来说，您认为自己的睡眠质量：</text>
+  <view class="{{ item.class }}">
+    <text class="title">{{ item.content }}</text>
+  </view>
+
+  <!-- 1-4题目 -->
+  <view wx:if="{{ index <= 3}}">
+    
+    <van-cell title="选择时间" wx:if="{{ index == 0 }}" value="{{ goSleep }}" is-link bind:click="showGoSleepPopup" />
+    <van-field
+      wx:if="{{ index == 1 }}"
+      value="{{ duringSleep }}"
+      type="number"
+      label="持续时间"
+      placeholder="请输入整数（大于0，小于600）"
+      bind:change="onConfirmDuringSleep"
+    />
+    <van-cell title="选择时间" wx:if="{{ index == 2 }}" value="{{ getUp }}" is-link bind:click="showGetUpPopup" />
+    <van-field
+      wx:if="{{ index == 3 }}"
+      value="{{ actSleep }}"
+      type="number"
+      label="持续时间"
+      placeholder="请输入数字（大于0，小于24）"
+      bind:change="onConfirmActSleep"
+    />
+    <!-- <van-cell title="选择时间" wx:if="{{ index == 3 }}" value="{{ actSleep }}" is-link bind:click="showActSleepPopup" /> -->
+  </view>
+  <!-- 6-9题目 -->
+  <view wx:elif="{{ index > 13 }}">
+    <van-radio-group value="{{ answer[index] }}">
+      <van-cell-group>
+        <van-cell title="{{ item.q1 }}" clickable data-name="{{ index }}-1" bind:click="onClick">
+          <van-radio slot="right-icon" name="1" />
+        </van-cell>
+        <van-cell title="{{ item.q2 }}" clickable data-name="{{ index }}-2" bind:click="onClick">
+          <van-radio slot="right-icon" name="2" />
+        </van-cell>
+        <van-cell title="{{ item.q3 }}" clickable data-name="{{ index }}-3" bind:click="onClick">
+          <van-radio slot="right-icon" name="3" />
+        </van-cell>
+        <van-cell title="{{ item.q4 }}" clickable data-name="{{ index }}-4" bind:click="onClick">
+          <van-radio slot="right-icon" name="4" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </view>
+  <!-- A-J题目 -->
+  <view wx:else>
+    <van-radio-group value="{{ answer[index] }}">
+      <van-cell-group>
+        <van-cell title="{{ item.q1 }}" clickable data-name="{{ index }}-1" bind:click="onClick">
+          <van-radio slot="right-icon" name="1" />
+        </van-cell>
+        <van-cell title="{{ item.q2 }}" clickable data-name="{{ index }}-2" bind:click="onClick">
+          <van-radio slot="right-icon" name="2" />
+        </van-cell>
+        <van-cell title="{{ item.q3 }}" clickable data-name="{{ index }}-3" bind:click="onClick">
+          <van-radio slot="right-icon" name="3" />
+        </van-cell>
+        <van-cell title="{{ item.q4 }}" clickable data-name="{{ index }}-4" bind:click="onClick">
+          <van-radio slot="right-icon" name="4" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </view>
+</view>
+
+<view style="margin-top: 40rpx;">
+  <van-button type="primary" size="large" bind:click="submit">保存本章问卷答案</van-button>
+</view>
+
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
+
+<!-- 弹出框 -->
+<van-popup show="{{ showGoSleep }}" position="bottom" bind:close="onCloseGoSleep">
+  <van-datetime-picker type="time" value="{{ goSleep }}" bind:confirm="onConfirmGoSleep" bind:cancel="onCancel" />
+</van-popup>
+
+<van-popup show="{{ showGetUp }}" position="bottom" bind:close="onCloseGetUp">
+  <van-datetime-picker type="time" value="{{ getUp }}" bind:confirm="onConfirmGetUp" bind:cancel="onCancel" />
+</van-popup>

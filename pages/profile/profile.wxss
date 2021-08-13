@@ -8,6 +8,10 @@
   box-sizing: border-box;
   margin: 40rpx 0;
 }
+
 .btn {
-  margin-top: 100%;
+  margin-top: 2rem;
+  /* position: relative;
+  top: 10rem;
+  bottom: 0; */
 }

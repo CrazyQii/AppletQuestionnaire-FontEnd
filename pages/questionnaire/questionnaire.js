@@ -16,19 +16,19 @@ Page({
     answer2: [],
     answer3: [],
     answer4: [],
+    answer5: [],
     finish_time: ''
   },
 
   onLoad: function () {
     const end_id = Number(wx.getStorageSync('end_id')) + 1 || this.data.questionnaire_id
-    if (end_id > 4) {
-      this.postInfo()
-      Toast.fail({
-        message: '已经完成该问卷!',
+    if (end_id > 5) {
+      Toast.success({
+        message: '已经完成该问卷',
         forbidClick: true,
         onClose: function() {
-          wx.switchTab({
-            url: '../profile/profile',
+          wx.reLaunch({
+            url: '../quesSleep/quesSleep',
           })
         }
       });
@@ -43,7 +43,7 @@ Page({
   },
   initList(id) {  // 获取问题列表
     let data = {'id': id}
-    get(questionnaireApi, data).then((res) => {
+    post(questionnaireApi, data).then((res) => {
       if (res.code == 200) {
         res.data['publish_time'] = formatDate(res.data['publish_time'])
         if (res.data.option.length == 0) { // 问卷为空
@@ -153,78 +153,40 @@ Page({
       }).catch(() => {
         console.log('用户取消！')
       })
+    } else if (this.data.questionnaire_id == 4) {
+      Dialog.confirm({
+        title: '保存答案',
+        message: '保存后不可更改',
+      }).then(() => {
+        let questionnaire_id = this.data.questionnaire_id + 1
+        this.setData({
+          questionnaire_id: questionnaire_id,
+          answer4: this.data.answer
+        })
+        wx.setStorageSync('answer4', this.data.answer4)
+        wx.setStorageSync('end_id', 4)
+        this.initList(this.data.questionnaire_id)
+      }).catch(() => {
+        console.log('用户取消！')
+      })
     } else {
       Dialog.confirm({
         title: '提交答案',
         message: '提交后不可更改',
       }).then(() => {
         this.setData({
-          answer4: this.data.answer
+          answer5: this.data.answer
         })
-        wx.setStorageSync('answer4', this.data.answer4)
-        wx.setStorageSync('end_id', 4)
-        this.postInfo()
+        wx.setStorageSync('answer5', this.data.answer5)
+        wx.setStorageSync('end_id', 5)
+        // 跳转页面
+        wx.navigateTo({
+          url: '../quesSleep/quesSleep',
+        })
       }).catch((e) => {
         console.log(e)
         console.log('用户取消！')
       });
     }
-  },
-  upload(data) { // 上传答题数据
-    post(recordApi, data).then((res) => {
-      if (res.code == 200) {
-        this.data.finish_time = formatTime(res.data.finish_time)
-        Toast.success({
-          message: '已经完成全部试题!',
-          forbidClick: true,
-          onClose: () => {
-            let userInfo = wx.getStorageSync('userInfo')
-            userInfo['finish_time'] = this.data.finish_time
-            wx.setStorageSync('userInfo', userInfo)
-            wx.switchTab({
-              url: '../profile/profile',
-            })
-          }
-        });
-      } else {
-        Toast.fail({
-          message: '上传数据失败！',
-          forbidClick: true,
-        });
-        console.log(res)
-      }
-    })
-  },
-  postInfo() {  // 上传基本信息数据
-    let baseInfo = wx.getStorageSync('baseInfo')
-    let data = {
-      'openid': baseInfo['openid'],
-      'name': baseInfo['name'],
-      'date': baseInfo['date'],
-      'culture': baseInfo['culture'],
-      'erMing': baseInfo['erMing'],
-      'during': baseInfo['during'],
-      'keeping': baseInfo['keeping'],
-      'env': baseInfo['env'],
-      'voice': baseInfo['voice'],
-      'feel': baseInfo['feel']
-    }
-    post(baseInfoApi, data).then((res) => {
-      if (res.code == 200) {
-        let data = {
-          openid: baseInfo['openid'],
-          answer1: wx.getStorageSync('answer1'),
-          answer2: wx.getStorageSync('answer2'),
-          answer3: wx.getStorageSync('answer3'),
-          answer4: wx.getStorageSync('answer4')
-        }
-        this.upload(data)
-      } else {
-        Toast.fail({
-          message: '上传基础信息失败！' + res.msg,
-          forbidClick: true
-        })
-      }
-    })
   }
 })
